@@ -61,27 +61,23 @@ while ($obj = $dbOld->fetch_object($res))
     ];
     $kode_jenis_pengadaan = $arrJenisPengadaan[$obj->jenis_pengadaan];
 
-    $tgl_renc_pemilihan_awal = $obj->rencana_pemilihan . '-01';
+    $tgl_renc_pemilihan_awal = convertToFirstDayOfMonth($obj->rencana_pemilihan);
+    $tgl_renc_pemilihan_awal = prepareString($dbNew, $tgl_renc_pemilihan_awal);
 
-    $tgl_renc_pemilihan_awal = convertDateToFirstDayOfMonthDate($tgl_renc_pemilihan_awal);
-    $tgl_renc_pemilihan_awal = empty($tgl_renc_pemilihan_awal) ? 'NULL' : "'$tgl_renc_pemilihan_awal'";
+    $tgl_renc_pemilihan_akhir = convertToLastDayOfMonth($obj->rencana_pemilihan_akhir);
+    $tgl_renc_pemilihan_akhir = prepareString($dbNew, $tgl_renc_pemilihan_akhir);
 
-    // $tgl_renc_pemilihan_akhir = $obj->rencana_pemilihan_akhir . '-01';
-    // $lastDate = date("t", strtotime($tgl_renc_pemilihan_akhir));
-    // $tgl_renc_pemilihan_akhir = $obj->rencana_pemilihan_akhir . '-' . $lastDate;
+    $tgl_renc_pelaksanaan_awal = convertToFirstDayOfMonth($obj->rencana_pelaksanaan);
+    $tgl_renc_pelaksanaan_awal = prepareString($dbNew, $tgl_renc_pelaksanaan_awal);
 
-    // $tgl_renc_pelaksanaan_awal = $obj->rencana_pelaksanaan . '-01';
+    $tgl_renc_pelaksanaan_akhir = convertToLastDayOfMonth($obj->rencana_pelaksanaan_akhir);
+    $tgl_renc_pelaksanaan_akhir = prepareString($dbNew, $tgl_renc_pelaksanaan_akhir);
 
-    // $tgl_renc_pelaksanaan_akhir = $obj->rencana_pelaksanaan_akhir . '-01';
-    // $lastDate = date("t", strtotime($tgl_renc_pelaksanaan_akhir));
-    // $tgl_renc_pelaksanaan_akhir = $obj->rencana_pelaksanaan_akhir . '-' . $lastDate;
+    $tgl_renc_pemanfaatan_awal = convertToFirstDayOfMonth($obj->rencana_pemanfaatan);
+    $tgl_renc_pemanfaatan_awal = prepareString($dbNew, $tgl_renc_pemanfaatan_awal);
 
-
-    // $tgl_renc_pemanfaatan_awal = $obj->rencana_pemanfaatan . '-01';
-
-    // $tgl_renc_pemanfaatan_akhir = $obj->rencana_pemanfaatan_akhir . '-01';
-    // $lastDate = date("t", strtotime($tgl_renc_pemanfaatan_akhir));
-    // $tgl_renc_pemanfaatan_akhir = $obj->rencana_pemanfaatan_akhir . '-' . $lastDate;
+    $tgl_renc_pemanfaatan_akhir = convertToLastDayOfMonth($obj->rencana_pemanfaatan_akhir);
+    $tgl_renc_pemanfaatan_akhir = prepareString($dbNew, $tgl_renc_pemanfaatan_akhir);
 
     $ucr = 'NULL';
     $uch = 'NULL';
@@ -89,7 +85,7 @@ while ($obj = $dbOld->fetch_object($res))
     $udch = $obj->updated_at;
 
     // $query = "INSERT INTO ref_rup (kode_rup, no_rup, kode_unit, nama_paket, lokasi, detail_lokasi, tahun_anggaran, uraian_pekerjaan, spesifikasi_pekerjaan, jml_pagu, volume_pekerjaan, satuan_volume, prod_dalam_negri, kategori_usaha, kategori_dipa, no_izin_thn_jamak, kode_metode_pengadaan, kode_jenis_pengadaan, tgl_renc_pemilihan_awal, tgl_renc_pemilihan_akhir, tgl_renc_pelaksanaan_awal, tgl_renc_pelaksanaan_akhir, tgl_renc_pemanfaatan_awal, tgl_renc_pemanfaatan_akhir, ucr, uch, udcr, udch)
-    $query = "INSERT INTO ref_rup (kode_rup, no_rup, kode_unit, nama_paket, lokasi, detail_lokasi, tahun_anggaran, uraian_pekerjaan, spesifikasi_pekerjaan, jml_pagu, volume_pekerjaan, satuan_volume, prod_dalam_negri, kategori_usaha, kategori_dipa, no_izin_thn_jamak, kode_metode_pengadaan, kode_jenis_pengadaan, tgl_renc_pemilihan_awal, ucr, uch, udcr, udch)
+    $query = "INSERT INTO ref_rup (kode_rup, no_rup, kode_unit, nama_paket, lokasi, detail_lokasi, tahun_anggaran, uraian_pekerjaan, spesifikasi_pekerjaan, jml_pagu, volume_pekerjaan, satuan_volume, prod_dalam_negri, kategori_usaha, kategori_dipa, no_izin_thn_jamak, kode_metode_pengadaan, kode_jenis_pengadaan, tgl_renc_pemilihan_awal, tgl_renc_pemilihan_akhir, tgl_renc_pelaksanaan_awal, tgl_renc_pelaksanaan_akhir, tgl_renc_pemanfaatan_awal, tgl_renc_pemanfaatan_akhir, ucr, uch, udcr, udch)
     VALUES (
         $kode_rup,
         '$no_rup',
@@ -110,21 +106,16 @@ while ($obj = $dbOld->fetch_object($res))
         $kode_metode_pengadaan,
         $kode_jenis_pengadaan,
         $tgl_renc_pemilihan_awal,
-        '$ucr',
+        $tgl_renc_pemilihan_akhir,
+        $tgl_renc_pelaksanaan_awal,
+        $tgl_renc_pelaksanaan_akhir,
+        $tgl_renc_pemanfaatan_awal,
+        $tgl_renc_pemanfaatan_akhir,
+       '$ucr',
         '$uch',
         '$udcr',
         '$udch'
     )";
-
-    /*
-        '$tgl_renc_pemilihan_akhir',
-        '$tgl_renc_pelaksanaan_awal',
-        '$tgl_renc_pelaksanaan_akhir',
-        '$tgl_renc_pemanfaatan_awal',
-        '$tgl_renc_pemanfaatan_akhir',
-
-
-    */
 
     $dbNew->query($query);
 

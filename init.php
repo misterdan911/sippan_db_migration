@@ -11,7 +11,8 @@ define('BASE_PATH', getcwd());
 
 require_once(BASE_PATH . '/config.php');
 require_once(BASE_PATH . '/src/Log.php');
-require_once(BASE_PATH . '/src/DB_OLD_MY.php');
+// require_once(BASE_PATH . '/src/DB_OLD_MY.php');
+require_once(BASE_PATH . '/src/DB_OLD_PG.php');
 require_once(BASE_PATH . '/src/DB_NEW.php');
 // require_once(BASE_PATH . '/src/Request.php');
 require_once(BASE_PATH . '/src/Encoding.php');
