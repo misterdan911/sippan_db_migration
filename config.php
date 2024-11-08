@@ -21,4 +21,11 @@ define('DB_USERNAME_NEW', 'postgres');
 define('DB_PASSWORD_NEW', 'postgres123');
 
 
-define('USER_LIMIT', 1000);
+
+define('DB_HOST', 'localhost');
+define('DB_PORT', '5432');
+define('DB_DATABASE_SIPPAN_MYSQL', 'sippan_mysql');
+define('DB_DATABASE_SIPPAN', 'db_sippan');
+define('DB_USERNAME', 'postgres');
+define('DB_PASSWORD', 'postgres123');
+
